@@ -55,3 +55,28 @@ select * from employee where joindate< DATEADD(MONTH,6,GETDATE());
 --Write a query to get the top 3 employees with the highest salaries.
 select top 3 name, salary from employee  order by salary desc 
 
+
+--Write a query to find employees who joined on the same date.
+select joindate,count(E_ID) from employee group by joindate having count(E_ID)>1
+
+--Write a query to find the nth highest salary from an Employee table.
+select distinct salary from employee order by salary desc  
+offset  5-1 rows  fetch next 1 row only
+
+--Write a query to fetch the department-wise highest paid employee.
+select d.DeptName ,e.Name,e.salary from Employee e join Department d
+on e.D_ID=d.D_ID 
+where salary =(select max(salary) from Employee where D_ID=e.D_ID)
+
+--Write a query to display the number of employees in each department, including departments that do not have any employees.
+select count(e.E_ID) , d.DeptName  from Employee e left join Department d
+on e.D_ID=d.D_ID
+group by d.DeptName
+
+--5. Question: Write a query to update the salary of employees who belong to a specific department (e.g., 'HR') by 10%.
+update Employee set salary=salary*2 where D_ID =(select D_ID from Department where DeptName ='HR')
+
+
+
+
+
